@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tung Sahur Escape Gaem - v0.5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Novidades do v0.03: enfeites de fundo -->
+    <div class="enfeite-esquerdo"></div>
+    <div class="enfeite-centro"></div>
+
+    <div class="container">
+        <!-- Sprites/cabeçalho do jogo original -->
+        <div class="header-game">
+            <img src="a.jpeg" alt="Tung Sahur" class="rotating-image left">
+            <div class="header">
+                <h1 class="game-title">TUNG SAHUR<br>ESCAPE GAEM</h1>
+                <p class="versao">VERSÃO 0.5 — clássico + novidades</p>
+            </div>
+            <img src="a.jpeg" alt="Tung Sahur" class="rotating-image right">
+        </div>
+
+        <div class="menu-opcoes">
+            <button class="opcao" onclick="irParaJogo(false)">Jogar</button>
+            <button class="opcao" onclick="irParaJogo(true)">Infinite Mode</button>
+            <button class="opcao" onclick="mostrarMais()">Mais</button>
+        </div>
+
+        <p class="dica">Setas / WASD para mover • X para diálogo • F para o bastão</p>
+    </div>
+
+    <!-- Novidade do v0.03: modal "Mais" -->
+    <div class="modal-overlay" id="modalMais">
+        <div class="modal-content">
+            <h2>MAIS</h2>
+            <p>A missão do Carlinhos continua.</p>
+            <a href="#" class="modal-link" id="linkFeliz">CLIQUE AQUI E SEJA FELIZ 😊</a>
+            <button class="fechar-modal" onclick="fecharMais()">FECHAR</button>
+        </div>
+    </div>
+
+    <audio id="musicaMenu" loop>
+        <source src="menu.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const audio = document.getElementById('musicaMenu');
+        const modal = document.getElementById('modalMais');
+        audio.volume = 0.7;
+
+        audio.play().catch(() => {
+            // Autoplay pode ser bloqueado pelo navegador até o primeiro clique.
+        });
+
+        function mostrarMais() {
+            modal.classList.add('active');
+        }
+
+        function fecharMais() {
+            modal.classList.remove('active');
+        }
+
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) fecharMais();
+        });
+
+        document.getElementById('linkFeliz').addEventListener('click', (e) => {
+            e.preventDefault();
+            fecharMais();
+        });
+
+        function irParaJogo(infinito) {
+            audio.pause();
+            window.location.href = 'jogo/index.html' + (infinito ? '?modo=infinite' : '');
+        }
+    </script>
+</body>
+</html>

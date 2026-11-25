@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tung Sahur Escape Gaem - v0.5</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Novidade do v0.03: tela de carregamento com vídeo e barra -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="video-container">
+            <video id="loadingVideo" autoplay muted loop playsinline>
+                <source src="../loading.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="loading-text">CARREGANDO...</div>
+        <div class="loading-bar-container">
+            <div class="loading-bar" id="loadingBar"></div>
+        </div>
+    </div>
+
+    <!-- Vila: antes da fase 1, o protagonista anda e fala com o Carlinhos -->
+    <div class="village-scene" id="villageScene">
+        <div class="village-title">VILAREJO DO CARLINHOS</div>
+        <div class="village-world" id="villageWorld">
+            <div class="village-player" id="villagePlayer"></div>
+            <div class="npc" id="npcCarlinhos">
+                <div class="npc-name">Carlinhos</div>
+            </div>
+        </div>
+        <div class="interaction-prompt" id="interactionPrompt">X PARA FALAR COM CARLINHOS</div>
+    </div>
+
+    <!-- Arena: jogabilidade e sprites do jogo original -->
+    <div class="game-container" id="gameContainer">
+        <div class="header-game">
+            <img src="../a.jpeg" alt="Imagem Giratória Esquerda" class="rotating-image left">
+            <h1 class="game-title">TUNG SAHUR ESCAPE GAEM</h1>
+            <img src="../a.jpeg" alt="Imagem Giratória Direita" class="rotating-image right">
+        </div>
+
+        <!-- HUD / barra de vida da gangue (v0.03) -->
+        <div class="hud">
+            <div class="hud-info">
+                <span id="modeLabel">MISSÃO</span>
+                <span>NÍVEL <b id="levelValue">1</b></span>
+                <span>MAÇÃS <b id="appleValue">0</b></span>
+                <span id="stickInfo">BASTÃO: —</span>
+            </div>
+            <div class="health-bar-container">
+                <div class="health-bar-title" id="healthBarTitle">GANGUE DE SKIBIDI TOILETS</div>
+                <div class="health-bar-bg">
+                    <div class="health-bar-fill" id="healthBarFill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contador do congelamento (v0.03) -->
+        <div class="freeze-timer" id="freezeTimer">❄️ 5 ❄️</div>
+
+        <div class="game-scaler" id="gameScaler">
+            <div id="game-area">
+                <div id="player"></div>
+            </div>
+        </div>
+
+        <p class="controles">SETAS / WASD: mudar direção • F: usar bastão • R: reiniciar</p>
+    </div>
+
+    <!-- Diálogo usado na vila -->
+    <div class="dialogue-container hidden" id="dialogueBox">
+        <div class="dialogue-portrait" id="dialoguePortrait"></div>
+        <div class="dialogue-content">
+            <div class="dialogue-name" id="dialogueName">TUNG SAHUR</div>
+            <div class="dialogue-text" id="dialogueText"></div>
+            <div class="dialogue-prompt" id="dialoguePrompt">APERTE X PARA CONTINUAR</div>
+        </div>
+    </div>
+
+    <!-- Game over: imagem original + tela do v0.03 -->
+    <div class="game-over-screen" id="gameOverScreen">
+        <div class="game-over-content">
+            <img src="../a.jpg" alt="Game Over" class="game-over-image">
+            <div class="game-over-text">ITS OVER!</div>
+            <button class="reset-button" id="resetButton">RESET</button>
+            <button class="menu-button" onclick="window.location.href='../index.html'">MENU</button>
+        </div>
+    </div>
+
+    <!-- Conclusão da missão -->
+    <div class="mission-complete-screen" id="missionCompleteScreen">
+        <div class="game-over-content">
+            <h2>MISSÃO COMPLETA!</h2>
+            <p>Você derrotou os dois chefes e resgatou os cavalos do Carlinhos.</p>
+            <button class="reset-button" id="continueButton">CONTINUAR INFINITO</button>
+            <button class="menu-button" onclick="window.location.href='../index.html'">MENU</button>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop preload="auto">
+        <source src="../a.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="bossMusic" loop preload="auto">
+        <source src="../d.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="boss2Music" loop preload="auto">
+        <source src="../c.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="itemAudio" preload="auto">
+        <source src="../c.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

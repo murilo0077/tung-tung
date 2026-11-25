@@ -1,0 +1,531 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial Black', Arial, sans-serif;
+    background-color: #87CEEB;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #eee;
+    transition: background-color 0.1s linear;
+}
+
+/* ---------- Loading (novidade do v0.03) ---------- */
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-screen.hidden {
+    display: none;
+}
+
+.video-container {
+    position: absolute;
+    inset: 0;
+    background: #000;
+}
+
+#loadingVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.loading-text {
+    position: absolute;
+    bottom: 10vh;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #00ff00;
+    font-size: clamp(20px, 2.5vw, 32px);
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.8);
+    letter-spacing: 2px;
+    z-index: 2;
+}
+
+.loading-bar-container {
+    position: absolute;
+    bottom: 5vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 3vh;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid #00ff00;
+    border-radius: 10px;
+    padding: 5px;
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+    z-index: 2;
+}
+
+.loading-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #00ff00, #00cc00);
+    border-radius: 5px;
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+}
+
+/* ---------- Vila (antes da fase 1) ---------- */
+.village-scene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: #2d8b3e;
+    z-index: 20;
+    overflow: hidden;
+}
+
+.village-scene.active {
+    display: block;
+}
+
+.village-title {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: clamp(14px, 1.6vw, 20px);
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    z-index: 25;
+}
+
+.village-world {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+}
+
+.village-player,
+.npc {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background-size: cover;
+    background-position: center;
+    image-rendering: pixelated;
+}
+
+.village-player {
+    background-image: url('../a.webp');
+    z-index: 10;
+}
+
+.npc {
+    background-image: url('../carl.webp');
+    z-index: 5;
+}
+
+.npc-name {
+    position: absolute;
+    top: -28px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+.interaction-prompt {
+    position: fixed;
+    bottom: 12vh;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: #ffff00;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: clamp(14px, 1.5vw, 18px);
+    border: 2px solid #ffff00;
+    z-index: 90;
+    display: none;
+    animation: blink 1.5s infinite;
+}
+
+.interaction-prompt.active {
+    display: block;
+}
+
+/* ---------- Cabeçalho / HUD ---------- */
+.game-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.game-container.active {
+    display: flex;
+}
+
+.header-game {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.game-title {
+    font-family: Arial, sans-serif;
+    font-size: clamp(20px, 2.8vw, 42px);
+    color: #0000FF;
+    text-shadow: 0 0 10px rgba(0, 0, 255, 0.7), 2px 2px 0 #000;
+    text-align: center;
+}
+
+.rotating-image {
+    width: 50px;
+    height: 50px;
+    animation: spin 3s linear infinite;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hud {
+    width: 800px;
+    max-width: 95vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.hud-info {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    font-size: 13px;
+    color: #fff;
+    text-shadow: 2px 2px 3px #000;
+}
+
+.hud-info b {
+    color: #ffff00;
+}
+
+#modeLabel {
+    color: #ff1744;
+}
+
+.health-bar-container {
+    width: min(500px, 90vw);
+}
+
+.health-bar-title {
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 5px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.9);
+}
+
+.health-bar-bg {
+    width: 100%;
+    height: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 3px solid #fff;
+    border-radius: 10px;
+    padding: 3px;
+}
+
+.health-bar-fill {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, #ff1744, #ff4444);
+    border-radius: 6px;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 15px rgba(255, 23, 68, 0.8);
+}
+
+.freeze-timer {
+    position: fixed;
+    bottom: 8vh;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #00ffff;
+    font-size: clamp(32px, 4vw, 48px);
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 25px;
+    border-radius: 15px;
+    border: 3px solid #00ffff;
+    z-index: 60;
+    display: none;
+}
+
+.freeze-timer.active {
+    display: block;
+    animation: pulse 0.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.1); }
+}
+
+.controles {
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: #fff;
+    text-shadow: 1px 1px 3px #000;
+}
+
+/* ---------- Arena original ---------- */
+.game-scaler {
+    width: 800px;
+    height: 500px;
+}
+
+#game-area {
+    width: 800px;
+    height: 500px;
+    background-color: #32CD32;
+    border: 5px solid #006400;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 25px rgba(0, 100, 0, 0.7);
+    transform-origin: top left;
+}
+
+#player {
+    width: 50px;
+    height: 50px;
+    background-image: url('../a.webp');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    z-index: 10;
+}
+
+.boss {
+    background-image: url('../boss.webp');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    z-index: 15;
+}
+
+.item-stick {
+    width: 30px;
+    height: 30px;
+    background-image: url('../d.webp');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    z-index: 8;
+    animation: itemGlow 1s ease-in-out infinite alternate;
+}
+
+@keyframes itemGlow {
+    from { filter: drop-shadow(0 0 3px #ffff00); }
+    to { filter: drop-shadow(0 0 12px #ffff00); }
+}
+
+.enemy {
+    width: 50px;
+    height: 50px;
+    background-image: url('../b.webp');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    z-index: 5;
+}
+
+.apple {
+    width: 30px;
+    height: 30px;
+    background-image: url('../c.webp');
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    z-index: 2;
+    animation: float 2s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+}
+
+/* Congelamento do v0.03 aplicado aos inimigos/clães do jogo original */
+.frozen {
+    filter: brightness(0.4) saturate(0) hue-rotate(180deg);
+    opacity: 0.75;
+}
+
+/* ---------- Diálogo (novidade do v0.03) ---------- */
+.dialogue-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 30vh;
+    background: rgba(0, 0, 0, 0.95);
+    border-top: 4px solid #fff;
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+    z-index: 100;
+}
+
+.dialogue-container.hidden {
+    display: none;
+}
+
+.dialogue-portrait {
+    width: clamp(90px, 9vw, 120px);
+    height: clamp(90px, 9vw, 120px);
+    background-size: cover;
+    background-position: center;
+    border: 3px solid #fff;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.dialogue-portrait.protagonist {
+    background-image: url('../a.webp');
+}
+
+.dialogue-portrait.carlinhos {
+    background-image: url('../carl.webp');
+}
+
+.dialogue-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+}
+
+.dialogue-name {
+    color: #ff1744;
+    font-size: 16px;
+    margin-bottom: 8px;
+}
+
+.dialogue-text {
+    font-size: clamp(15px, 1.6vw, 20px);
+    line-height: 1.5;
+    font-family: Arial, sans-serif;
+}
+
+.dialogue-prompt {
+    text-align: center;
+    font-size: 14px;
+    color: #ffff00;
+    margin-top: 15px;
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.3; }
+}
+
+/* ---------- Game Over / Missão completa (v0.03 + imagem original) ---------- */
+.game-over-screen,
+.mission-complete-screen {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.95);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+}
+
+.game-over-screen.active,
+.mission-complete-screen.active {
+    display: flex;
+}
+
+.game-over-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    text-align: center;
+    padding: 20px;
+}
+
+.game-over-image {
+    width: clamp(180px, 30vw, 320px);
+    max-height: 45vh;
+    object-fit: contain;
+    border: 5px solid #ff0000;
+    box-shadow: 0 0 30px rgba(255, 0, 0, 0.8);
+}
+
+.game-over-text {
+    color: #ff1744;
+    font-size: clamp(32px, 5vw, 56px);
+    text-shadow: 0 0 20px rgba(255, 23, 68, 0.8);
+}
+
+.mission-complete-screen h2 {
+    color: #00ff00;
+    font-size: clamp(32px, 5vw, 56px);
+    text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+}
+
+.mission-complete-screen p {
+    color: #fff;
+    font-family: Arial, sans-serif;
+    font-size: clamp(14px, 1.6vw, 20px);
+    max-width: 500px;
+}
+
+.reset-button,
+.menu-button {
+    background: linear-gradient(145deg, #ff1744, #c4001d);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    font-size: clamp(18px, 2vw, 26px);
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Arial Black', Arial, sans-serif;
+    text-transform: uppercase;
+    box-shadow: 0 8px 16px rgba(255, 23, 68, 0.4);
+    transition: all 0.3s ease;
+}
+
+.menu-button {
+    background: linear-gradient(145deg, #444, #222);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+}
+
+.reset-button:hover,
+.menu-button:hover {
+    transform: scale(1.08);
+}
